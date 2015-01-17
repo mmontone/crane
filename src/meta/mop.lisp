@@ -48,8 +48,7 @@
                 :type boolean)
    (col-foreign  :reader col-foreign
                  :initarg :col-foreign
-                 :initform nil
-                 :type (or null <foreign>))
+                 :initform nil)
    (col-autoincrement-p :reader col-autoincrement-p
                         :initarg :col-autoincrement-p
                         :initform nil
