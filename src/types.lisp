@@ -18,6 +18,11 @@
   ()
   (:documentation "The base class of all SQL types."))
 
+(defgeneric sql-type-name (type)
+  (:documentation "Return the SQL name of a type."))
+
+;;; Types
+
 ;; Numeric types
 
 (defclass int ()
@@ -59,3 +64,20 @@
 (defclass datetime ()
   ()
   (:documentation "A date/time value."))
+
+;;; Type names
+
+(macrolet ((type-name (class name)
+             `(defmethod sql-type-name ((type ,class))
+                ,(format nil "Type name of the ~A type." (string-downcase class))
+                (declare (ignore type))
+                ,name)))
+  (type-name int "INTEGER")
+  (type-name bigint "BIGINT")
+  (type-name smallint "SMALLINT")
+  (type-name numeric "NUMERIC")
+  (type-name double "DOUBLE")
+  (type-name text "TEXT")
+  (type-name varchar "VARCHAR")
+  (type-name timestamp "TIMESTAMP")
+  (type-name datetime "DATETIME"))
