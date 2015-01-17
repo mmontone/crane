@@ -65,18 +65,6 @@ behaviour of SxQL."
                   (constraint-name table-name column-name :index)
                   (sqlize table-name)))))
 
-(defparameter +referential-actions+
-  (list :cascade "CASCADE"
-        :restrict "RESTRICT"
-        :no-action "NO ACTION"
-        :set-null "SET NULL"
-        :set-default "SET DEFAULT"))
-
-(defun map-ref-action (action)
-  (aif (getf +referential-actions+ action)
-       it
-       (error "No such referential action: ~A" action)))
-
 (defun foreign (local foreign-table &key (on-delete :no-action) (on-update :no-action))
   (format nil "FOREIGN KEY (~A) REFERENCES ~A(id) ON DELETE ~A ON UPDATE ~A"
           (sqlize local)

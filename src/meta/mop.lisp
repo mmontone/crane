@@ -26,16 +26,6 @@
        it
        crane.connect:*default-db*))
 
-(defmethod closer-mop:validate-superclass ((class <table-class>)
-                                           (super closer-mop:standard-class))
-  "Validate that a table class can be a subclass of a standard-class."
-  t)
-
-(defmethod closer-mop:validate-superclass ((class standard-class)
-                                           (super <table-class>))
-  "Validate that a standard-class can be the subclass of a table-class."
-  t)
-
 (defclass <table-class-direct-slot-definition>
     (closer-mop:standard-direct-slot-definition)
   ((col-type :reader col-type
@@ -85,16 +75,6 @@
                         :documentation "Whether the column should be autoincremented."))
   (:documentation "A slot of a <table-class>."))
 
-(defmethod closer-mop:direct-slot-definition-class ((class <table-class>)
-                                                    &rest initargs)
-  (declare (ignore class initargs))
-  (find-class '<table-class-direct-slot-definition>))
-
-(defmethod closer-mop:effective-slot-definition-class ((class <table-class>)
-                                                       &rest initargs)
-  (declare (ignore class initargs))
-  (find-class '<table-class-slot>))
-
 (defmethod closer-mop:compute-effective-slot-definition ((class <table-class>)
                                                          slot-name direct-slot-definitions)
   (declare (ignore slot-name))
@@ -121,8 +101,32 @@
           (col-index-p direct-slot)
 
           (slot-value effective-slot-definition 'col-foreign)
-          (col-foreign direct-slot)
+          (aif (col-foreign direct-slot)
+               (apply #'make-foreign it)
+               nil)
 
           (slot-value effective-slot-definition 'col-autoincrement-p)
           (col-autoincrement-p direct-slot))
     effective-slot-definition))
+
+;;; Assorted MOPery
+
+(defmethod closer-mop:validate-superclass ((class <table-class>)
+                                           (super closer-mop:standard-class))
+  "Validate that a table class can be a subclass of a standard-class."
+  t)
+
+(defmethod closer-mop:validate-superclass ((class standard-class)
+                                           (super <table-class>))
+  "Validate that a standard-class can be the subclass of a table-class."
+  t)
+
+(defmethod closer-mop:direct-slot-definition-class ((class <table-class>)
+                                                    &rest initargs)
+  (declare (ignore class initargs))
+  (find-class '<table-class-direct-slot-definition>))
+
+(defmethod closer-mop:effective-slot-definition-class ((class <table-class>)
+                                                       &rest initargs)
+  (declare (ignore class initargs))
+  (find-class '<table-class-slot>))
