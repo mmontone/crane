@@ -1,8 +1,8 @@
 (in-package :cl-user)
 (defpackage crane.types
-  (:import-from :cl
-                :deftype)
-  (:export :int
+  (:use :cl)
+  (:export :sql-type
+           :int
            :bigint
            :smallint
            :numeric
@@ -14,20 +14,48 @@
   (:documentation "Implements the database types."))
 (in-package :crane.types)
 
+(defclass sql-type ()
+  ()
+  (:documentation "The base class of all SQL types."))
+
 ;; Numeric types
 
-(deftype int () `cl:integer)
-(deftype bigint () `cl:integer)
-(deftype smallint () `cl:integer)
-(deftype numeric () `cl:ratio)
-(deftype double () `cl:double-float)
+(defclass int ()
+  ()
+  (:documentation "An integer"))
+
+(defclass bigint ()
+  ()
+  (:documentation "A big integer."))
+
+(defclass smallint ()
+  ()
+  (:documentation "A small integer."))
+
+(defclass numeric ()
+  ()
+  (:documentation "A number."))
+
+(defclass double ()
+  ()
+  (:documentation "A double-precision floating-point number."))
 
 ;; Text
 
-(deftype text () `cl:string)
-(deftype varchar () `cl:string)
+(defclass text ()
+  ()
+  (:documentation "A piece of text."))
+
+(defclass varchar ()
+  ()
+  (:documentation "A variable-length string."))
 
 ;; Extra
 
-(deftype timestamp () `cl:string)
-(deftype datetime () `cl:string)
+(defclass timestamp ()
+  ()
+  (:documentation "A timestamp."))
+
+(defclass datetime ()
+  ()
+  (:documentation "A date/time value."))
