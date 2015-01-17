@@ -32,22 +32,28 @@
              :initarg :col-type)
    (col-null-p :reader col-null-p
                :initarg :col-null-p
-               :initform t)
+               :initform t
+               :type boolean)
    (col-unique-p :reader col-unique-p
                  :initarg :col-unique-p
-                 :initform nil)
+                 :initform nil
+                 :type boolean)
    (col-primary-p :reader col-primary-p
                   :initarg :col-primary-p
-                  :initform nil)
+                  :initform nil
+                  :type boolean)
    (col-index-p :reader col-index-p
                 :initarg :col-index-p
-                :initform nil)
+                :initform nil
+                :type boolean)
    (col-foreign  :reader col-foreign
                  :initarg :col-foreign
-                 :initform nil)
+                 :initform nil
+                 :type (or null <foreign>))
    (col-autoincrement-p :reader col-autoincrement-p
                         :initarg :col-autoincrement-p
-                        :initform nil))
+                        :initform nil
+                        :type boolean))
   (:documentation "The direct slot definition class of <table-class> slots."))
 
 (defclass <table-class-slot>
@@ -57,21 +63,27 @@
              :documentation "The type of the column.")
    (col-null-p :reader col-null-p
                :initarg :col-null-p
+               :type boolean
                :documentation "Whether the column is nullable.")
    (col-unique-p :reader col-unique-p
                  :initarg :col-unique-p
+                 :type boolean
                  :documentation "Whether the column is unique.")
    (col-primary-p :reader col-primary-p
                   :initarg :col-primary-p
+                  :type boolean
                   :documentation "Whether the column is a primary key.")
    (col-index-p :reader col-index-p
                 :initarg :col-index-p
+                :type boolean
                 :documentation "Whether the column is an index in the database.")
    (col-foreign :reader col-foreign
                 :initarg :col-foreign
+                :type (or null <foreign>)
                 :documentation "Describes a foreign key relationship.")
    (col-autoincrement-p :reader col-autoincrement-p
                         :initarg :col-autoincrement-p
+                        :type boolean
                         :documentation "Whether the column should be autoincremented."))
   (:documentation "A slot of a <table-class>."))
 
