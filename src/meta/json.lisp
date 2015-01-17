@@ -1,6 +1,24 @@
 ;;;; JSON serialization/deserialization of classes and class slots
 (in-package :crane.meta)
 
+(defun serialize-symbol (symbol)
+  "Return a serializable representation from a symbol."
+  (let* ((package (symbol-package symbol))
+         (package-externals (loop for sym being the external-symbols of package
+                                  collecting sym))
+         (externalp (if (member symbol package-externals)
+                        t))
+         (package-name (package-name package))
+         (symbol-name (symbol-name symbol)))
+    (concatenate 'string
+                 package-name
+                 (if externalp ":" "::")
+                 symbol-name)))
+
+(defun find-serialied-symbol (string)
+  "Load a symbol from the string created by serialize-symbol."
+  (intern string))
+
 (defmethod yason:encode ((slot table-class-slot) &optional (stream *standard-output*))
   (yason:with-output (stream)
     (yason:with-object ()
