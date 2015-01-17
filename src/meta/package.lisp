@@ -6,6 +6,7 @@
                 :get-db)
   (:export :<table-class>
            :<table-class-slot>
+           :<foreign>
            :table-name
            :abstractp
            :deferredp
@@ -17,6 +18,9 @@
            :col-index-p
            :col-foreign
            :col-autoincrement-p
+           :foreign-table
+           :up-delete-action
+           :on-update-action
            :digest
            :diff-digest)
   (:documentation "This package defines the metaclasses that map CLOS objects to
