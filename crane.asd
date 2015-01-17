@@ -10,7 +10,8 @@
                :iterate
                :cl-fad
                :clos-fixtures
-               :uiop)
+               :uiop
+               :yason)
   :components ((:module "src"
                 :serial t
                 :components
@@ -22,6 +23,7 @@
                   :serial t
                   :components
                   ((:file "package")
+                   (:file "foreign")
                    (:file "mop")
                    (:file "json")
                    (:file "diff")))
