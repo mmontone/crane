@@ -18,6 +18,7 @@
                 ((:file "errors")
                  (:file "config")
                  (:file "util")
+                 (:file "types")
                  (:file "connect")
                  (:module "meta"
                   :serial t
@@ -26,17 +27,7 @@
                    (:file "foreign")
                    (:file "mop")
                    (:file "json")
-                   (:file "diff")))
-                 (:file "sql")
-                 (:file "query")
-                 (:file "migration")
-                 (:file "table")
-                 (:file "types")
-                 (:file "inflate-deflate")
-                 (:file "interface")
-                 (:file "fixture")
-                 (:file "transaction")
-                 (:file "crane"))))
+                   (:file "diff"))))))
   :description "An ORM for Common Lisp."
   :long-description
   #.(uiop:read-file-string
