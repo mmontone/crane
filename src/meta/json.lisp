@@ -1,7 +1,7 @@
 ;;;; JSON serialization/deserialization of classes and class slots
 (in-package :crane.meta)
 
-(defmethod yason:encode ((slot <table-class-slot>) &optional (stream *standard-output*))
+(defmethod yason:encode ((slot table-class-slot) &optional (stream *standard-output*))
   (yason:with-output (stream)
     (yason:with-object ()
       (yason:encode-object-element "type" (col-type slot))

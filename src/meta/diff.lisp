@@ -1,7 +1,7 @@
 ;;;; Computing differences between slots for migrations
 (in-package :crane.meta)
 
-(defmethod digest-slot ((slot <table-class-slot>))
+(defmethod digest-slot ((slot table-class-slot))
   (list :name (closer-mop:slot-definition-name slot)
         :type (col-type slot)
         :nullp (col-null-p slot)
@@ -11,7 +11,7 @@
         :autoincrementp (col-autoincrement-p slot)
         :foreign (col-foreign slot)))
 
-(defmethod digest ((class <table-class>))
+(defmethod digest ((class table-class))
   "Serialize a class's options and slots' options into a plist"
   (list :table-options
         (list :database (table-database class))
@@ -24,7 +24,7 @@
                      :text "The table ~A has no slots."
                      (table-name class))))))
 
-(defmethod diff-slot ((slot-a <table-class-slot>) (slot-b <table-class-slot>))
+(defmethod diff-slot ((slot-a table-class-slot) (slot-b table-class-slot))
   "Compute the difference between two slot digests.
 See DIGEST."
   (append (list :name (getf slot-a :name) :diff)

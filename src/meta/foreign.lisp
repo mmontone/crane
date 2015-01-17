@@ -15,7 +15,7 @@
        it
        (error "No such referential action: ~A" action)))
 
-(defclass <foreign> ()
+(defclass foreign-key ()
   ((foreign-table :reader foreign-table
                   :initarg :foreign-table
                   :type symbol
@@ -32,14 +32,14 @@
                      :documentation "The action to take on updates."))
   (:documentation "A foreign key relationship."))
 
-(defmethod initialize-instance :after ((foreign <foreign>) &key)
+(defmethod initialize-instance :after ((foreign foreign-key) &key)
   "Verify that the referential actions are allowed."
   (referential-action-name (on-delete-action foreign))
   (referential-action-name (on-update-action foreign)))
 
 (defun make-foreign (foreign-table-name &key (on-delete :no-action)
                                           (on-update :no-action))
-  (make-instance '<foreign>
+  (make-instance 'foreign-key
                  :foreign-table foreign-table-name
                  :on-delete-action on-delete
                  :on-update-action on-update))

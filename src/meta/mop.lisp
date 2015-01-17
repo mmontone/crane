@@ -1,7 +1,7 @@
 ;;;; Metaclass to represent classes that are associated to an SQL table
 (in-package :crane.meta)
 
-(defclass <table-class> (closer-mop:standard-class)
+(defclass table-class (closer-mop:standard-class)
   ((abstractp :reader abstractp
               :initarg :abstractp
               :initform nil
@@ -16,17 +16,17 @@
              :documentation "The database this class belongs to."))
   (:documentation "A table metaclass."))
 
-(defmethod table-name ((class <table-class>))
+(defmethod table-name ((class table-class))
   "Return the name of a the class, a symbol."
   (class-name class))
 
-(defmethod table-database ((class <table-class>))
+(defmethod table-database ((class table-class))
   "The database this class belongs to."
   (aif (%table-database class)
        it
        crane.connect:*default-db*))
 
-(defclass <table-class-direct-slot-definition>
+(defclass table-class-direct-slot-definition
     (closer-mop:standard-direct-slot-definition)
   ((col-type :reader col-type
              :initarg :col-type)
@@ -55,7 +55,7 @@
                         :type boolean))
   (:documentation "The direct slot definition class of <table-class> slots."))
 
-(defclass <table-class-slot>
+(defclass table-class-slot
     (closer-mop:standard-effective-slot-definition)
   ((col-type :reader col-type
              :initarg :col-type
@@ -78,7 +78,7 @@
                 :documentation "Whether the column is an index in the database.")
    (col-foreign :reader col-foreign
                 :initarg :col-foreign
-                :type (or null <foreign>)
+                :type (or null foreign-key)
                 :documentation "Describes a foreign key relationship.")
    (col-autoincrement-p :reader col-autoincrement-p
                         :initarg :col-autoincrement-p
@@ -86,7 +86,7 @@
                         :documentation "Whether the column should be autoincremented."))
   (:documentation "A slot of a <table-class>."))
 
-(defmethod closer-mop:compute-effective-slot-definition ((class <table-class>)
+(defmethod closer-mop:compute-effective-slot-definition ((class table-class)
                                                          slot-name direct-slot-definitions)
   (declare (ignore slot-name))
   (let ((direct-slot (first direct-slot-definitions))
@@ -122,22 +122,22 @@
 
 ;;; Assorted MOPery
 
-(defmethod closer-mop:validate-superclass ((class <table-class>)
+(defmethod closer-mop:validate-superclass ((class table-class)
                                            (super closer-mop:standard-class))
   "Validate that a table class can be a subclass of a standard-class."
   t)
 
 (defmethod closer-mop:validate-superclass ((class standard-class)
-                                           (super <table-class>))
+                                           (super table-class))
   "Validate that a standard-class can be the subclass of a table-class."
   t)
 
-(defmethod closer-mop:direct-slot-definition-class ((class <table-class>)
+(defmethod closer-mop:direct-slot-definition-class ((class table-class)
                                                     &rest initargs)
   (declare (ignore class initargs))
-  (find-class '<table-class-direct-slot-definition>))
+  (find-class 'table-class-direct-slot-definition))
 
-(defmethod closer-mop:effective-slot-definition-class ((class <table-class>)
+(defmethod closer-mop:effective-slot-definition-class ((class table-class)
                                                        &rest initargs)
   (declare (ignore class initargs))
-  (find-class '<table-class-slot>))
+  (find-class 'table-class-slot))

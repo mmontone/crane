@@ -4,9 +4,9 @@
   (:import-from :crane.connect
                 :database-type
                 :get-db)
-  (:export :<table-class>
-           :<table-class-slot>
-           :<foreign>
+  (:export :table-class
+           :table-class-slot
+           :foreign-key
            :table-name
            :abstractp
            :deferredp

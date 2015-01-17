@@ -10,7 +10,8 @@
            :text
            :varchar
            :timestamp
-           :datetime)
+           :datetime
+           :sql-type-name)
   (:documentation "Implements the database types."))
 (in-package :crane.types)
 
