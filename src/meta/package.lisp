@@ -1,0 +1,23 @@
+(in-package :cl-user)
+(defpackage crane.meta
+  (:use :cl :anaphora :iter)
+  (:import-from :crane.connect
+                :database-type
+                :get-db)
+  (:export :<table-class>
+           :<table-class-slot>
+           :table-name
+           :abstractp
+           :deferredp
+           :table-database
+           :col-type
+           :col-null-p
+           :col-unique-p
+           :col-primary-p
+           :col-index-p
+           :col-foreign
+           :col-autoincrement-p
+           :digest
+           :diff-digest)
+  (:documentation "This package defines the metaclasses that map CLOS objects to
+  SQL tables, and some basic operations on them."))

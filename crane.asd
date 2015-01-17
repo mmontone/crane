@@ -18,7 +18,13 @@
                  (:file "config")
                  (:file "util")
                  (:file "connect")
-                 (:file "meta")
+                 (:module "meta"
+                  :serial t
+                  :components
+                  ((:file "package")
+                   (:file "mop")
+                   (:file "json")
+                   (:file "diff")))
                  (:file "sql")
                  (:file "query")
                  (:file "migration")
