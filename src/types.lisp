@@ -11,7 +11,8 @@
            :varchar
            :timestamp
            :datetime
-           :sql-type-name)
+           :sql-type-name
+           :type-from-sql)
   (:documentation "Implements the database types."))
 (in-package :crane.types)
 
@@ -82,3 +83,23 @@
   (type-name varchar "VARCHAR")
   (type-name timestamp "TIMESTAMP")
   (type-name datetime "DATETIME"))
+
+(defun type-from-sql (string)
+  "Reconstruct a type from its SQL representation."
+  (macrolet ((name-types (&rest pairs)
+             `(cond
+                ,@(loop for (class name) in pairs collecting
+                    `((equal ,name string)
+                      (find-class ',class)))
+                (t
+                 (error "Unknown type.")))))
+    (name-types
+      (int "INTEGER")
+      (bigint "BIGINT")
+      (smallint "SMALLINT")
+      (numeric "NUMERIC")
+      (double "DOUBLE")
+      (text "TEXT")
+      (varchar "VARCHAR")
+      (timestamp "TIMESTAMP")
+      (datetime "DATETIME"))))
