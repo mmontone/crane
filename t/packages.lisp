@@ -1,7 +1,12 @@
 (in-package :cl-user)
+
 (defpackage crane-test.util
   (:use :cl :fiveam)
   (:export :util-tests))
+
+(defpackage crane-test.types
+  (:use :cl :fiveam)
+  (:export :type-tests))
 
 (defpackage crane-test.spec
   (:use :cl :fiveam)

@@ -19,6 +19,7 @@
                   :components
                   ((:file "config")
                    (:file "table")
+		   (:file "types")
                    (:file "migration")
                    (:file "queries")
                    (:file "inflate-deflate")

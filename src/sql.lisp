@@ -124,8 +124,13 @@ doesn't create a constraint, but :nullp nil creates a NOT NULL constraint)."
 (defun define-column (table-name column database-name)
   "A column definition from the digest of its slot, name and name of the
 database it's table belongs to"
-  (let* ((column-definition
-           (let ((column-type (symbol-name (getf column :type))))
+  (let* ((db-type (crane.connect:database-type
+		   (crane.connect:get-db
+		    database-name)))
+	 (column-definition
+           (let ((column-type (crane.types:sql-type-definition 
+			       (getf column :type)
+			       db-type)))
              (format nil "~A ~A"
                      (sqlize (getf column :name))
                      (if (equal (symbol-name (getf column :name)) "ID")
@@ -133,10 +138,7 @@ database it's table belongs to"
                          ;; only, without the database type, so we have to choose
                          ;; here whether to display the include the type in the
                          ;; CREATE TABLE statement on that basis
-                         (let* ((db-type (crane.connect:database-type
-                                          (crane.connect:get-db
-                                           database-name)))
-                                (sql (autoincrement-sql db-type)))
+                         (let ((sql (autoincrement-sql db-type)))
                            (if (eq db-type :postgres)
                                sql
                                (format nil "~A ~A" column-type sql)))
